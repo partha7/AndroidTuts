@@ -1,8 +1,11 @@
 package com.example.androidtuts.di.modules;
 
+import android.content.Context;
+
 import com.example.androidtuts.data.local.DatabaseService;
 import com.example.androidtuts.data.remote.NetworkService;
 import com.example.androidtuts.di.scope.ActivityScope;
+import com.example.androidtuts.qualifiers.ActivityContext;
 import com.example.androidtuts.ui.MainActivity;
 import com.example.androidtuts.ui.MainViewModel;
 
@@ -16,11 +19,9 @@ public class ActivityModule {
         this.activity = activity;
     }
 
-    @ActivityScope
-    @Provides
-    MainViewModel getMainViewModel(DatabaseService databaseService, NetworkService networkService){
-
-        return new MainViewModel(databaseService, networkService);
+    @ActivityContext
+    Context getActivityContext(){
+        return activity;
     }
 
 }
