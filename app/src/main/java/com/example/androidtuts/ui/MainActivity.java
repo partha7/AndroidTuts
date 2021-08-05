@@ -6,12 +6,19 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.androidtuts.MyApplication;
 import com.example.androidtuts.R;
-import com.example.androidtuts.di.DependencyComponent;
+import com.example.androidtuts.di.components.ActivityComponent;
+import com.example.androidtuts.di.components.DaggerActivityComponent;
+import com.example.androidtuts.di.modules.ActivityModule;
+
+import javax.inject.Inject;
 
 
 public class MainActivity extends AppCompatActivity {
 
-    public com.example.androidtuts.ui.MainViewModel viewModel;
+    @Inject
+    public MainViewModel viewModel;
+    ActivityComponent activityComponent;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,10 +26,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // initialize MainViewModel
-
-        DependencyComponent.inject(this);
+        getDependencies();
 
         TextView tvData = findViewById(R.id.tvData);
         tvData.setText(viewModel.getSomeData());
+    }
+    public void getDependencies(){
+        activityComponent = DaggerActivityComponent
+                .builder()
+                .applicationComponent(((MyApplication) getApplication()).applicationComponent)
+                .activityModule(new ActivityModule(this))
+                .build();
+        activityComponent.inject(this);
     }
 }
