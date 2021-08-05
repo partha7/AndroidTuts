@@ -1,10 +1,10 @@
 package com.example.androidtuts.ui;
-
 import android.os.Bundle;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.androidtuts.MyApplication;
 import com.example.androidtuts.R;
 
 
@@ -18,7 +18,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // initialize MainViewModel
-        viewModel = new MainViewModel(this.getApplicationContext());
+        MyApplication application = (MyApplication) getApplication();
+        viewModel = new MainViewModel(application.dbService, application.networkService);
 
         TextView tvData = findViewById(R.id.tvData);
         tvData.setText(viewModel.getSomeData());
