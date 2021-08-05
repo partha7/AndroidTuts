@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.androidtuts.MyApplication;
 import com.example.androidtuts.R;
+import com.example.androidtuts.di.DependencyComponent;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -18,8 +19,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // initialize MainViewModel
-        MyApplication application = (MyApplication) getApplication();
-        viewModel = new MainViewModel(application.dbService, application.networkService);
+
+        DependencyComponent.inject(this);
 
         TextView tvData = findViewById(R.id.tvData);
         tvData.setText(viewModel.getSomeData());
